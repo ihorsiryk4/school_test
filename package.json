@@ -1,0 +1,24 @@
+{
+  "name": "school_test",
+  "version": "1.0.0",
+  "description": "Node-express server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihorsiryk4/school_test.git"
+  },
+  "author": "Ihor Siryk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ihorsiryk4/school_test/issues"
+  },
+  "homepage": "https://github.com/ihorsiryk4/school_test#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {}
+}
