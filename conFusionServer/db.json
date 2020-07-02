@@ -1,12 +1,35 @@
 {
     "lessons": [
       {
-        "name": "Literature",
-        "topic": "Nabokov",
-        "lector": "Nabokov",
-        "students": "Nabokov",
-        "class": "1.12",
-        "time": "12:00 -12:01"
+        "subject": "Literature",
+        "topic": "Social realism literature",
+        "lecturer": [
+          {
+            "name": "Vladimir Nabokov",
+            "degree": "PhD"
+          }
+        ],
+        "studyGroup": [
+          {
+            "name": "1984 Group",
+            "student": [
+              {
+                "name": "Vladimir Ulyanov",
+                "age": "54"
+              },
+              {
+                "name": "Ioseb Besarionis dze Jughashvili",
+                "age": "75"
+              },
+              {
+                "name": "Leon Trotsky",
+                "age": "61"
+              }
+            ]
+          }
+        ],
+        "classroom": "404",
+        "time": "12:00 - 12:45"
             
       }
     ]
