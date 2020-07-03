@@ -48,7 +48,7 @@ lessonRouter.route('/:lessonId')
     .then((lesson) => {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(dish);
+        res.json(lesson);
     }, (err) => next(err))
     .catch((err) => next(err));
 })

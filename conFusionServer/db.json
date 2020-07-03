@@ -31,6 +31,37 @@
         "classroom": "404",
         "time": "12:00 - 12:45"
             
+      },
+      {
+        "subject": "Physics",
+        "topic": "Relativity of relativity",
+        "lecturer": [
+          {
+            "name": "Albert Einstein",
+            "degree": "PhD"
+          }
+        ],
+        "studyGroup": [
+          {
+            "name": "1945 Group",
+            "student": [
+              {
+                "name": "Robert Oppenheimer",
+                "age": "51"
+              },
+              {
+                "name": "Leo Szilard",
+                "age": "60"
+              },
+              {
+                "name": "Hans Bethe",
+                "age": "69"
+              }
+            ]
+          }
+        ],
+        "classroom": "202",
+        "time": "12:45 - 13:45"
       }
     ]
 }

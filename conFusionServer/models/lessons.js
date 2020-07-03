@@ -4,31 +4,29 @@ const Schema = mongoose.Schema;
 const lecturerSchema = new Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     degree: {
         type: String,
-        required: true,
+        required: true
     }
 })
 
 const studentSchema = new Schema({
     name: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     age: {
         type: Number,
-        required: true,
+        required: true
     }
 })
 
 const groupSchema = new Schema({
     name: {
         type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     student: [studentSchema],
 })
@@ -36,7 +34,7 @@ const groupSchema = new Schema({
 const lessonSchema = new Schema({
     subject: {
         type: String,
-        required: true,
+        required: true
     },
     topic: {
         type: String,
@@ -53,7 +51,9 @@ const lessonSchema = new Schema({
         required: true
     }
 
-}),  
+}, {
+    timestamps: true
+});  
     
 
 Lessons = mongoose.model('Lesson', lessonSchema);
