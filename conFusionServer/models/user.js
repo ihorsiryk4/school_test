@@ -1,12 +1,13 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var passportLocalMongoose = require('passport-local-mongoose');
+const mongoose = require('mongoose');
 
-var User = new Schema({
-    admin:   {
-        type: Boolean,
-        default: false
-    }
+const { Schema } = mongoose;
+const passportLocalMongoose = require('passport-local-mongoose');
+
+const User = new Schema({
+  admin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 User.plugin(passportLocalMongoose);

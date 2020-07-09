@@ -8,6 +8,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 const FileStore = require('session-file-store')(session);
 const authenticate = require('./authenticate');
 
@@ -16,6 +17,12 @@ const usersRouter = require('./routes/users');
 const lessonRouter = require('./routes/lessonRouter');
 
 const Lessons = require('./models/lessons');
+
+dotenv.config();
+
+const { port } = require('./config');
+
+console.log(`Your port is ${port}`);
 
 const url = 'mongodb://localhost:27017/conFusion';
 const connect = mongoose.connect(url);
