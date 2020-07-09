@@ -1,22 +1,24 @@
-/* eslint-disable no-console */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
-const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const FileStore = require('session-file-store')(session);
-const authenticate = require('./authenticate');
+const debug = require('debug')('confusionserver:server');
+const http = require('http');
+const authenticate = require('./middlewares/authenticate');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const lessonRouter = require('./routes/lessonRouter');
 
-const Lessons = require('./models/lessons');
+const dbConnection = require('./db/db');
 
 dotenv.config();
 
@@ -24,14 +26,63 @@ const { port } = require('./config');
 
 console.log(`Your port is ${port}`);
 
-const url = 'mongodb://localhost:27017/conFusion';
-const connect = mongoose.connect(url);
-
-connect.then((db) => {
-  console.log('Connected correctly to server');
-}, (err) => { console.log(err); });
-
 const app = express();
+
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+// Event listener for HTTP server "error" event.
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? `Pipe ${port}`
+    : `Port ${port}`;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      // eslint-disable-next-line no-console
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      // eslint-disable-next-line no-console
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? `pipe ${addr}`
+    : `port ${addr.port}`;
+  debug(`Listening on ${bind}`);
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,7 +91,6 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser('12345-67890-09876-54321'));
 
 app.use(session({
   name: 'session-id',
