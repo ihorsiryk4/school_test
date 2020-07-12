@@ -1,46 +1,34 @@
-/* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-use-before-define */
 /* eslint-disable no-console */
-
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
 const passport = require('passport');
 const session = require('express-session');
-const dotenv = require('dotenv');
 const FileStore = require('session-file-store')(session);
 const debug = require('debug')('confusionserver:server');
-const http = require('http');
 const authenticate = require('./middlewares/authenticate');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const lessonRouter = require('./routes/lessonRouter');
-
-const dbConnection = require('./db/db');
-
-dotenv.config();
-
 const { port } = require('./config');
-
-console.log(`Your port is ${port}`);
+const db = require('./db/db');
 
 const app = express();
-
-app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-
-const server = http.createServer(app);
+const server = app.listen(port, () => {
+  console.log(`Listening on ${port}`);
+});
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -51,9 +39,7 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -78,15 +64,9 @@ function onError(error) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -111,7 +91,7 @@ function auth(req, res, next) {
 
   if (!req.user) {
     const err = new Error('You are not authenticated!');
-    err.status = 403;
+    err.status = 401;
     next(err);
   } else {
     next();
@@ -119,8 +99,6 @@ function auth(req, res, next) {
 }
 
 app.use(auth);
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/lessons', lessonRouter);
 
@@ -135,9 +113,9 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
+  // send the error
   res.status(err.status || 500);
-  res.render('error');
+  res.send(err.message);
 });
 
-module.exports = app;
+module.exports = server;

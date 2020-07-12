@@ -1,24 +1,23 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const passport = require('passport');
+
 const UsersController = require('../controllers/users');
 
 const router = express.Router();
-router.use(bodyParser.json());
 
 /* GET users listing. */
-router.get('/', UsersController.usersGetAll);
+router.get('/', UsersController.getAll);
 
 // Users registration route
 
-router.post('/signup', UsersController.usersPostSignUp);
+router.post('/signup', UsersController.signUp);
 
 // User login route
 
-router.post('/login', passport.authenticate('local'), UsersController.usersPostLogIn);
+router.post('/login', passport.authenticate('local'), UsersController.logIn);
 
 // User logout route
 
-router.get('/logout', UsersController.usersGetLogOut);
+router.get('/logout', UsersController.logOut);
 
 module.exports = router;

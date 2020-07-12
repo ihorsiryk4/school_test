@@ -1,30 +1,19 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 
-const LessonsController = require('../controllers/lessonRouter');
+const LessonController = require('../controllers/lessonRouter');
 
 const lessonRouter = express.Router();
 
-lessonRouter.use(bodyParser.json());
+lessonRouter.get('/', LessonController.getAll);
 
-// Imported '/lessons' controllers
+lessonRouter.post('/', LessonController.create);
 
-lessonRouter.get('/', LessonsController.lessonsGetAll);
+lessonRouter.delete('/', LessonController.deleteMany);
 
-lessonRouter.post('/', LessonsController.lessonsPostAll);
+lessonRouter.get('/:lessonId', LessonController.getById);
 
-lessonRouter.put('/', LessonsController.lessonsPutAll);
+lessonRouter.put('/:lessonId', LessonController.updateById);
 
-lessonRouter.delete('/', LessonsController.lessonsDeleteAll);
-
-// Imoprted '/lessons/lessonId controllers
-
-lessonRouter.get('/:lessonId', LessonsController.lessonGetById);
-
-lessonRouter.post('/:lessonId', LessonsController.lessonPostById);
-
-lessonRouter.put('/:lessonId', LessonsController.lessonPutById);
-
-lessonRouter.delete('/:lessonId', LessonsController.lessonDeleteById);
+lessonRouter.delete('/:lessonId', LessonController.deleteById);
 
 module.exports = lessonRouter;
